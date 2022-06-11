@@ -8,11 +8,14 @@ const app = express();
 //Buscar Variables de entorno
 dotenv.config()
 
+//variable Puerto 
+const PORT = process.env.PORT || 4000
+
 //Conectar a la BD
 conectarDB();
 
-app.listen(4000, () =>{
-    console.log('server run 4000');
+app.listen(PORT, () =>{
+    console.log(`server run ${PORT}`);
 })
 
 
