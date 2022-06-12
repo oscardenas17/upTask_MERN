@@ -107,6 +107,7 @@ const olvidePassword = async(req,res) => {
 };
 
 
+//Validar el token reenviado para cambiar contraseña
 const comprobarToken = async(req,res) => {  
     const {token} = req.params;
 
@@ -122,6 +123,36 @@ const comprobarToken = async(req,res) => {
 };
 
 
+//Permitir al usuario establecer su nueva Contraseña
+const nuevoPassword = async(req,res) => {
+    const {token} = req.params;
+    const {password} = req.body;
+    // console.log(password);
+    // console.log(token);
+    //Validar token y/o usuario
+    const usuario = await Usuario.findOne({token})
+    if( usuario){
+       // console.log(usuario); //validar instancia del usuario
+       //Reescribir password
+       usuario.password= password;
+       usuario.token = ''
+       //almacenamos
+        try {
+            await usuario.save()
+            res.json( {msg: 'Password modificado correctamente'})
+        } catch (error) {
+            console.log(error);
+        }
+
+    }else{
+        const error = new Error('El token para recuperar la contraseña no es válido')
+        return res.status(404).json( {msg:error.message}) 
+    }
+
+};
+
+
+
 
 
 
@@ -130,7 +161,8 @@ export {
     autenticar,
     confirmar,
     olvidePassword,
-    comprobarToken
+    comprobarToken,
+    nuevoPassword
 
 
 }
