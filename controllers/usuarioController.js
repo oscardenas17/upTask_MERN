@@ -43,6 +43,19 @@ const autenticar = async (req,res) =>{
         return res.status(403).json( {msg:error.message})
     }
     //Comprobar password
+    if (await usuario.comprobarPassword(password)  ) {
+        //console.log('es correcto');
+        //se retorna obj info del usuario correcto
+        res.json({
+            _id: usuario._id,
+            nombre:usuario.nombre,
+            email: usuario.email,
+        })
+
+    }else{
+        const error = new Error('Contraseña Incorrecta')
+        return res.status(404).json( {msg:error.message})
+    }
 }
 
 
