@@ -148,13 +148,17 @@ const nuevoPassword = async(req,res) => {
         const error = new Error('El token para recuperar la contraseña no es válido')
         return res.status(404).json( {msg:error.message}) 
     }
-
 };
 
 
+//CheckAuth
+const perfil = async(req,res) => {
+    console.log('desde perfil del controller');
 
+    const {usuario} = req
 
-
+    res.json(usuario)
+};
 
 export {
     registrar,
@@ -162,7 +166,8 @@ export {
     confirmar,
     olvidePassword,
     comprobarToken,
-    nuevoPassword
+    nuevoPassword,
+    perfil
 
 
 }
