@@ -2,6 +2,8 @@ import Usuario from "../models/Usuarios.js";
 import generarId from "../helpers/generarId.js"
 import generarJWT from "../helpers/generarJWT.js"
 
+
+
 //Crear usuario
 const registrar = async (req,res)=>{
     //console.log(req.body);
@@ -20,15 +22,15 @@ const registrar = async (req,res)=>{
         const usuario = new Usuario(req.body)
         usuario.token = generarId()
         const usuarioAlmacenado = await usuario.save()
-        res.json( {usuarioAlmacenado} )
-        
+        res.json( {usuarioAlmacenado} )        
     } catch (error) {
         console.log(error)
     } 
 } ;
 
-//Autenticar usuario
 
+
+//Autenticar usuario
 const autenticar = async (req,res) =>{
     const {email, password} = req.body
     //Comprobar si el usuario existe
@@ -57,6 +59,35 @@ const autenticar = async (req,res) =>{
         const error = new Error('Contraseña Incorrecta')
         return res.status(404).json( {msg:error.message})
     }
+};
+
+const confirmar = async(req,res) =>{
+//console.log(req.params.token);
+
+    //Leer de la url el token
+    const {token} = req.params
+
+    const usuarioConfirmar = await Usuario.findOne( {token} ); //Buscar el usuario con ese token
+    //Token invalido
+    if (!usuarioConfirmar) {
+        const error = new Error('Token no válido')
+            return res.status(404).json( {msg:error.message})    
+    }
+
+    //token ok 
+    try {
+        usuarioConfirmar.confirmado= true;
+        usuarioConfirmar.token= "";  //eliminar token un solo uso
+
+        //almacenar en bd
+        await usuarioConfirmar.save();
+        res.json( {msg: 'Usuario Confirmado Correctamente'})
+    } catch (error) {
+        console.log(error);
+    }
+
+// console.log(usuarioConfirmar);
+
 }
 
 
@@ -69,7 +100,8 @@ const autenticar = async (req,res) =>{
 
 export {
     registrar,
-    autenticar
+    autenticar,
+    confirmar
 
 
 }
