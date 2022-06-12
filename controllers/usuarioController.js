@@ -1,6 +1,6 @@
 import Usuario from "../models/Usuarios.js";
 import generarId from "../helpers/generarId.js"
-
+import generarJWT from "../helpers/generarJWT.js"
 
 //Crear usuario
 const registrar = async (req,res)=>{
@@ -50,6 +50,7 @@ const autenticar = async (req,res) =>{
             _id: usuario._id,
             nombre:usuario.nombre,
             email: usuario.email,
+            token: generarJWT(usuario._id),
         })
 
     }else{
