@@ -2,6 +2,7 @@ import Usuario from "../models/Usuarios.js";
 import generarId from "../helpers/generarId.js"
 
 
+//Crear usuario
 const registrar = async (req,res)=>{
     //console.log(req.body);
     //Evitar registro mail duplicado
@@ -23,14 +24,26 @@ const registrar = async (req,res)=>{
         
     } catch (error) {
         console.log(error)
-    }
-   
-  
+    } 
 } ;
+
+//Autenticar usuario
+
+const autenticar = async (req,res) =>{
+
+}
+
+
+
+
+
+
+
 
 
 export {
-    registrar
+    registrar,
+    autenticar
 
 
 }
