@@ -1,7 +1,7 @@
 import express from 'express';
 const router  =  express.Router();
 
-import {autenticar, confirmar, registrar} from '../controllers/usuarioController.js';
+import {autenticar, confirmar, olvidePassword, registrar} from '../controllers/usuarioController.js';
 
 
 //Autenticación, registro y confirmación de Usuarios
@@ -9,6 +9,8 @@ import {autenticar, confirmar, registrar} from '../controllers/usuarioController
 router.post('/',  registrar); //crea un nuevo usuario
 router.post('/login', autenticar); // index-app.use('/api/usuarios'-se concatena = /api/usuarios/login
 router.get('/confirmar/:token', confirmar);
+router.post('/olvide-password',olvidePassword);
+
 
 
 

@@ -61,38 +61,51 @@ const autenticar = async (req,res) =>{
     }
 };
 
+
+//Confirmar cuenta usuario
 const confirmar = async(req,res) =>{
 //console.log(req.params.token);
-
     //Leer de la url el token
     const {token} = req.params
-
     const usuarioConfirmar = await Usuario.findOne( {token} ); //Buscar el usuario con ese token
     //Token invalido
     if (!usuarioConfirmar) {
         const error = new Error('Token no válido')
             return res.status(404).json( {msg:error.message})    
     }
-
     //token ok 
     try {
         usuarioConfirmar.confirmado= true;
-        usuarioConfirmar.token= "";  //eliminar token un solo uso
-
+        usuarioConfirmar.token= "";  //eliminar token un solo uso                    
         //almacenar en bd
         await usuarioConfirmar.save();
         res.json( {msg: 'Usuario Confirmado Correctamente'})
     } catch (error) {
         console.log(error);
-    }
-
-// console.log(usuarioConfirmar);
-
-}
+    }// console.log(usuarioConfirmar);
+};
 
 
+//Recuperación de contaseñas
 
+const olvidePassword = async(req,res) => {
+    const {email} = req.body;
+     //Comprobar si el usuario existe
+     const usuario =  await Usuario.findOne( {email} )
+     if(!usuario){
+         const error = new Error('EL usuario no existe')
+         return res.status(404).json( {msg:error.message})
+     }
 
+     try {
+        usuario.token = generarId();
+        await usuario.save();
+        res.json( {msg: 'Email con instrucciones enviado'})
+        //console.log(usuario);
+     } catch (error) {
+        console.log(error);
+     }
+};
 
 
 
@@ -101,7 +114,8 @@ const confirmar = async(req,res) =>{
 export {
     registrar,
     autenticar,
-    confirmar
+    confirmar,
+    olvidePassword
 
 
 }
