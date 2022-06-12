@@ -87,7 +87,6 @@ const confirmar = async(req,res) =>{
 
 
 //Recuperación de contaseñas
-
 const olvidePassword = async(req,res) => {
     const {email} = req.body;
      //Comprobar si el usuario existe
@@ -108,6 +107,21 @@ const olvidePassword = async(req,res) => {
 };
 
 
+const comprobarToken = async(req,res) => {  
+    const {token} = req.params;
+
+    //Validar si el token de la url extraido por params, lo tiene un usuario
+    const tokenValido = await Usuario.findOne({token})
+
+    if( tokenValido){
+        res.json( {msg: 'TOken para recuperar contraseña Ok'})
+    }else{
+        const error = new Error('El token para recuperar la contraseña no es válido')
+        return res.status(404).json( {msg:error.message}) 
+    }
+};
+
+
 
 
 
@@ -115,7 +129,8 @@ export {
     registrar,
     autenticar,
     confirmar,
-    olvidePassword
+    olvidePassword,
+    comprobarToken
 
 
 }
