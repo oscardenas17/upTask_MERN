@@ -33,7 +33,7 @@ const checkAuth =  async(req, res, next) => {
     //El usuario no envia Token
     if (!token) {
         const error = new Error("Token no válido, no ha sido enviado");
-        res.status(401).json( {msg: error.message} )
+        return  res.status(401).json( {msg: error.message} )
     }
 
 
