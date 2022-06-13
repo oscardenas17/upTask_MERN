@@ -2,8 +2,8 @@
 import express from "express"
 import dotenv from "dotenv"
 import conectarDB from "./config/db.js";
-import UsuarioRoutes from './routes/usuarioRoutes.js'
-
+import usuarioRoutes from './routes/usuarioRoutes.js'
+import proyectoRoutes from './routes/proyectoRoutes.js'
 
 const app = express();
 //Habilitar Json
@@ -16,8 +16,8 @@ dotenv.config()
 conectarDB();
 
 //Routing  (.use responde a todos los verbos https)
-app.use('/api/usuarios', UsuarioRoutes)
-
+app.use('/api/usuarios', usuarioRoutes)
+app.use('/api/proyectos', proyectoRoutes)
 
 
 //variable Puerto 

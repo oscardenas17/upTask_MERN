@@ -21,7 +21,21 @@ const proyectoSchema = mongoose.Schema( {
         required: true
     },
     creador: {
-        type: moongose.Schema.Types.ObjectId
-    }
+        type: moongose.Schema.Types.ObjectId,
+        ref: 'Usuario'
+    },
+    colaboradores: [
+        {
+          type: moongose.Schema.Types.ObjectId,
+          ref: 'Usuario'
+        },
+    ],
 
-});
+},   { timestamps: true,}  
+
+);
+
+
+const Proyecto = moongose.model( "Proyecto", proyectoSchema);
+
+export default Proyecto
