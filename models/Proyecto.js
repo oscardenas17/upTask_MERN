@@ -1,4 +1,4 @@
-import moongose from "mongoose";
+import mongoose from "mongoose";
 
 const proyectoSchema = mongoose.Schema( {
     nombre: {
@@ -9,7 +9,7 @@ const proyectoSchema = mongoose.Schema( {
     descripcion: {
         type: String,
         trim: true,
-        required: true,
+        required: true, 
     },
     fechaEntrega: {
         type: Date,
@@ -21,12 +21,12 @@ const proyectoSchema = mongoose.Schema( {
         required: true
     },
     creador: {
-        type: moongose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario'
     },
     colaboradores: [
         {
-          type: moongose.Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'Usuario'
         },
     ],
@@ -34,8 +34,8 @@ const proyectoSchema = mongoose.Schema( {
 },   { timestamps: true,}  
 
 );
+ 
 
+const Proyecto = mongoose.model( "Proyecto", proyectoSchema);
 
-const Proyecto = moongose.model( "Proyecto", proyectoSchema);
-
-export default Proyecto
+export default Proyecto 
