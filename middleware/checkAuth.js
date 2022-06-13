@@ -33,6 +33,7 @@ const checkAuth =  async(req, res, next) => {
     //El usuario no envia Token
     if (!token) {
         const error = new Error("Token no válido, no ha sido enviado");
+        //poner return si no hay token iria a next, y ejecutaria otro middleware en el controlador
         return  res.status(401).json( {msg: error.message} )
     }
 
