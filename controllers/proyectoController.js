@@ -29,6 +29,24 @@ const nuevoProyecto = async (req, res) =>{
 //Lista proyecto y tareas asociada a el
 const obtenerProyecto = async (req, res) =>{
 
+    //routing dinamico obtener ID
+    const {id} = req.params;
+    //console.log(id);
+    const proyecto = await Proyecto.findById(id)
+    //console.log(proyecto);
+    if (!proyecto) {
+        const error = new Error('Proyecto no encontrado')
+        return res.status(404).json( {msg:error.message})      
+    }
+
+    //comprobar que la persona que quiere ver el proyecto es quien lo creo
+    //console.log(proyecto.creador.toString() === req.usuario._id.toString() );
+    if (proyecto.creador.toString() !== req.usuario._id.toString()) {
+        const error = new Error('Acción no válida')
+        return res.status(401).json( {msg:error.message}) 
+    }
+    //mostrar proyecto a quien lo creo
+    res.json(proyecto)
 };
 
 const editarProyecto = async (req, res) =>{
