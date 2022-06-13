@@ -1,9 +1,13 @@
 import Proyecto from "../models/Proyecto.js"
 
 
-//Obtiene todos los proyectos del usuario autenticado
+//Obtiene todos los proyectos del usuario autenticado, no de otros
 const obtenerProyectos = async (req, res) =>{
-   
+    //condicion para solo traer lo del usuario del req.usuario del checkAuth where('creador').equals(req.usuario)
+    //console.log(req.usuario);
+   const proyectos = await Proyecto.find().where('creador').equals(req.usuario);
+   //console.log(proyectos);
+   res.json(proyectos)
 };
 
 const nuevoProyecto = async (req, res) =>{
