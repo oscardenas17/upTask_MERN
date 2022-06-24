@@ -51,9 +51,10 @@ const obtenerProyecto = async (req, res) =>{
  
 const editarProyecto = async (req, res) =>{
      //routing dinamico obtener ID
-     const {id} = req.params;   
-     const proyecto = await Proyecto.findById(id)     
-     if (!proyecto) {
+     const {id} = req.params;   //obtener el proyecto 
+     const proyecto = await Proyecto.findById(id)  //instancia del proyecto
+
+     if (!proyecto) { //verificar que existe el proyecto
          const error = new Error('Proyecto no encontrado')
          return res.status(404).json( {msg:error.message})      
      }   
@@ -61,6 +62,7 @@ const editarProyecto = async (req, res) =>{
          const error = new Error('Acción no válida')
          return res.status(401).json( {msg:error.message});
      }
+     //pasa validaciones para entrar a esta parte
      //reescribir proyecto  ( !! xxxx lo que ya hay en la bd)
      proyecto.nombre = req.body.nombre || proyecto.nombre;
      proyecto.descripcion = req.body.descripcion || proyecto.descripcion;
@@ -76,7 +78,25 @@ const editarProyecto = async (req, res) =>{
 };
 
 const eliminarProyecto = async (req, res) =>{
+     //routing dinamico obtener ID
+     const {id} = req.params;   //obtener el proyecto - IDENTIFICARLO
+     const proyecto = await Proyecto.findById(id)  //instancia del proyecto- COMSULTAR LA BD
 
+     if (!proyecto) { //verificar que existe el proyecto
+         const error = new Error('Proyecto no encontrado')
+         return res.status(404).json( {msg:error.message})      
+     }   
+     if (proyecto.creador.toString() !== req.usuario._id.toString()) { //CREADOR CORRECTO?
+         const error = new Error('Acción no válida')
+         return res.status(401).json( {msg:error.message});
+     }
+
+     try {
+        await proyecto.deleteOne();
+        res.json( {msg: "Proyecto Eliminado"} )  
+     } catch (error) {
+        console.log(error);
+     }
 };
 
 const agregarColaborador = async (req, res) =>{
