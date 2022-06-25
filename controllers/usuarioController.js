@@ -24,7 +24,7 @@ const registrar = async (req,res)=>{
         usuario.token = generarId()
        //const usuarioAlmacenado = await usuario.save()
         //res.json( {usuarioAlmacenado} )  
-        await usuario.save()
+        await usuario.save() 
 
         //Envio de Mail de confirmacion - clg a usuario para ver data.email token etc
         //console.log(usuario)
