@@ -19,10 +19,12 @@ conectarDB();
 //configurar CORS
 //crear whitelist
 const whitelist = [process.env.FRONTEND_URL];
+//const whitelist = ['http://localhost:3000'];
 const corsOptions= {
     origin: function(origin, callback){
+        //console.log(origin);
         if(whitelist.includes(origin)){
-            callback(null, true); //Puede consultar API
+            callback(null, true); //Puede consultar API - null no error, true da acceso
         }else{
             callback(new Error('Error de Cors')); //No esta permitido
         }
