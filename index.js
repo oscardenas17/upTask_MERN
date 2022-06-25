@@ -1,6 +1,7 @@
 // const express = require("express")
 import express from "express"
 import dotenv from "dotenv"
+import cors from "cors"
 import conectarDB from "./config/db.js";
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import proyectoRoutes from './routes/proyectoRoutes.js'
@@ -14,6 +15,21 @@ dotenv.config()
 
 //Conectar a la BD
 conectarDB();
+
+//configurar CORS
+//crear whitelist
+const whitelist = ['http://localhost:3000'];
+const corsOptions= {
+    origin: function(origin, callback){
+        if(whitelist.includes(origin)){
+            callback(null, true); //Puede consultar API
+        }else{
+            callback(new Error('Error de Cors')); //No esta permitido
+        }
+    },
+};
+app.use(cors(corsOptions))
+//fin CORS
 
 //Routing  (.use responde a todos los verbos https)
 app.use('/api/usuarios', usuarioRoutes)

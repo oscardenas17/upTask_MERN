@@ -10,7 +10,7 @@ const registrar = async (req,res)=>{
     //Evitar registro mail duplicado
     const {email} = req.body
     const existeUsuario = await Usuario.findOne( {email} )
-    console.log('existe usuario');
+    //console.log(existeUsuario);
 
     if(existeUsuario){
         const error = new Error('Email ya registrado');
@@ -21,8 +21,11 @@ const registrar = async (req,res)=>{
         //console.log(usuario);
         const usuario = new Usuario(req.body)
         usuario.token = generarId()
-        const usuarioAlmacenado = await usuario.save()
-        res.json( {usuarioAlmacenado} )        
+       //const usuarioAlmacenado = await usuario.save()
+        //res.json( {usuarioAlmacenado} )  
+        await usuario.save()
+              
+        res.json( {msg: 'Usuario almacenado correctamente, revisa tu Email para confirmar tu cuenta'} )
     } catch (error) {
         console.log(error)
     } 
