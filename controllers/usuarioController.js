@@ -3,7 +3,7 @@ import generarId from "../helpers/generarId.js"
 import generarJWT from "../helpers/generarJWT.js"
 
 //import mail
-import { emailRegistro } from "../helpers/emails.js";
+import { emailRegistro, emailOlvidePassword } from "../helpers/emails.js";
 
 //Crear usuario
 const registrar = async (req,res)=>{
@@ -101,7 +101,7 @@ const confirmar = async(req,res) =>{
 };
 
 
-//Recuperación de contaseñas
+//Recuperación de contraseñas
 const olvidePassword = async(req,res) => {
     const {email} = req.body;
      //Comprobar si el usuario existe
@@ -114,6 +114,14 @@ const olvidePassword = async(req,res) => {
      try {
         usuario.token = generarId();
         await usuario.save();
+
+        //Enviar email con instrucciones
+        emailOlvidePassword( {
+            email: usuario.email,
+            nombre: usuario.nombre,
+            token: usuario.token
+        } )
+
         res.json( {msg: 'Email con instrucciones enviado'})
         //console.log(usuario);
      } catch (error) {
