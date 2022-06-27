@@ -33,6 +33,10 @@ const corsOptions= {
 app.use(cors(corsOptions))
 //fin CORS
 
+// app.get('/', (req, res)=>{
+//     res.send('oki')
+// })
+
 //Routing  (.use responde a todos los verbos https)
 app.use('/api/usuarios', usuarioRoutes)
 app.use('/api/proyectos', proyectoRoutes)
