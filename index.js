@@ -30,12 +30,16 @@ const corsOptions= {
         }
     },
 };
-app.use(cors(corsOptions))
-//fin CORS
-
+app.use('/', express.static('public'));
 // app.get('/', (req, res)=>{
 //     res.send('oki')
 // })
+
+app.use(cors(corsOptions))
+//fin CORS
+
+
+
 
 //Routing  (.use responde a todos los verbos https)
 app.use('/api/usuarios', usuarioRoutes)
