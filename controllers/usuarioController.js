@@ -176,7 +176,7 @@ const nuevoPassword = async(req,res) => {
 
 //CheckAuth - validar token de usuario para llamar el perfil de usuario
 const perfil = async(req,res) => {
-    console.log('desde perfil del Usuariocontroller');
+    //console.log('desde perfil del Usuariocontroller');
     const {usuario} = req
     res.json(usuario)
 };
