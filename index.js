@@ -6,6 +6,9 @@ import conectarDB from "./config/db.js";
 import usuarioRoutes from './routes/usuarioRoutes.js'
 import proyectoRoutes from './routes/proyectoRoutes.js'
 
+ 
+
+
 const app = express();
 //Habilitar Json
 app.use(express.json())
@@ -48,9 +51,25 @@ app.use('/api/proyectos', proyectoRoutes)
 
 //variable Puerto 
 const PORT = process.env.PORT || 4000
-app.listen(PORT, () =>{
+const servidor = app.listen(PORT, () =>{
     console.log(`server run ${PORT}`);
 })
 
 
-//'/api/usuarios'
+//socket.io
+ import { Server } from 'socket.io';
+
+ const io= new Server(servidor, {
+    pingTimeout: 60000,
+    cors: {
+        origin: process.env.FRONTEND_URL
+    }
+ });
+
+// //abrir una conexion de socket io
+
+ io.on('connection', (socket) => {
+     console.log('socket connected');
+
+    //Defincion de eventos de conexion de socket io
+ })

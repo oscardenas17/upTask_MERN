@@ -32,11 +32,7 @@ const registrar = async (req,res)=>{
             email: usuario.email,
             nombre: usuario.nombre,
             token: usuario.token
-        })
-
-       
-        
-
+        })  
         res.json( {msg: 'Usuario almacenado correctamente, revisa tu Email para confirmar tu cuenta'} )
     } catch (error) {
         console.log(error)
@@ -48,6 +44,7 @@ const registrar = async (req,res)=>{
 //Autenticar usuario
 const autenticar = async (req,res) =>{
     const {email, password} = req.body
+    console.log(email);
     //Comprobar si el usuario existe
     const usuario =  await Usuario.findOne( {email} )
     if(!usuario){
@@ -59,9 +56,11 @@ const autenticar = async (req,res) =>{
         const error = new Error('Tu cuenta no ha sido confirmada')
         return res.status(403).json( {msg:error.message})
     }
+
     //Comprobar password
     if (await usuario.comprobarPassword(password)  ) {
         //console.log('es correcto');
+        console.log(usuario)
         //se retorna obj info del usuario correcto
         res.json({
             _id: usuario._id,
@@ -69,9 +68,8 @@ const autenticar = async (req,res) =>{
             email: usuario.email,
             token: generarJWT(usuario._id),
         })
-
     }else{
-        const error = new Error('Contraseña Incorrecta')
+        const error = new Error('Verifica que tus datos sean correctos')
         return res.status(404).json( {msg:error.message})
     }
 };
@@ -175,6 +173,7 @@ const nuevoPassword = async(req,res) => {
 
 
 //CheckAuth - validar token de usuario para llamar el perfil de usuario
+//obtiene los datos del request
 const perfil = async(req,res) => {
     //console.log('desde perfil del Usuariocontroller');
     const {usuario} = req

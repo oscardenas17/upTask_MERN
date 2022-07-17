@@ -8,10 +8,10 @@ const checkAuth =  async(req, res, next) => {
     //console.log('desde checkAuth.js');
     //console.log(req.headers.authorization);
     let token;
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         try {
             //SPLIT con vacio PARA DIVIDIR EN CADENAS EL BEARER Y EL TOKEN Y OBTENER EL TOKEN
-            token= req.headers.authorization.split(' ')[1]
+            token= req.headers.authorization.split(" ")[1];
             //console.log(token);
             //Descrifar- leer token
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
