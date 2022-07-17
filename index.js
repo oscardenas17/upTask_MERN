@@ -72,4 +72,11 @@ const servidor = app.listen(PORT, () =>{
      console.log('socket connected');
 
     //Defincion de eventos de conexion de socket io
+    socket.on('prueba', (data)=> {
+        console.log('prueba desde socketio', data);
+
+    //Envio de datos al Frontend
+    socket.emit('respuesta', {nombre: 'Yesid'})
+
+    })
  })
