@@ -8,7 +8,6 @@ import proyectoRoutes from './routes/proyectoRoutes.js'
 import tareaRoutes from './routes/tareaRoutes.js'
  
 
-
 const app = express();
 //Habilitar Json
 app.use(express.json())
@@ -38,7 +37,7 @@ app.use('/', express.static('public'));
 //     res.send('oki')
 // })
 
-app.use(cors(corsOptions))
+//app.use(cors(corsOptions))
 //fin CORS
 
 
