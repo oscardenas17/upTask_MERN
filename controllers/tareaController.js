@@ -18,7 +18,7 @@ const agregarTarea = async (req,res) =>{
     //Comprobar si la persona que añadio la tarea fue quien creo el proyecto
     if(existeProyecto.creador.toString() !==  req.usuario._id.toString()){
         const error = new Error("No tienes los permisos para añadir tareas");
-        return res.status(404).json({msg:error.message});
+        return res.status(403).json({msg:error.message});
     }
 
 
@@ -30,9 +30,31 @@ const agregarTarea = async (req,res) =>{
     }
 };
 
+
+//obtener una tarea de la persona autenticada y que haya creado el proyecto
 const obtenerTarea = async (req,res) =>{
     
-};
+    //Obtener el id de la tarea
+    const {id} = req.params;
+    //console.log(id);
+    //Identidicar la tarea, con populate cruzamos la info de proyecto para encontrar el creador del proyecto
+    const tarea = await Tarea.findById(id).populate("proyecto");
+    //console.log(tarea); 
+
+    if(!tarea){
+        const error = new Error("tarea no encontrada");
+        return res.status(404).json({msg:error.message});
+    }
+
+
+    if(tarea.proyecto.creador.toString() !== req.usuario._id.toString()){
+        const error = new Error("Acción no válida");
+        return res.status(403).json({msg:error.message});
+    }
+
+
+}
+
 
 
 const actualizarTarea = async (req,res) =>{
@@ -55,6 +77,6 @@ export {
     obtenerTarea,
     actualizarTarea,
     eliminarTarea,
-    cambiarEstado,
+    cambiarEstado
 
-};
+}
