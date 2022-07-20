@@ -24,7 +24,7 @@ const agregarTarea = async (req,res) =>{
 
     try {
         const tareaAlmacenada = await Tarea.create(req.body)
-        return res.json(tareaAlmacenada);
+         res.json(tareaAlmacenada);
     } catch (error) {
         console.log(error);
     }
