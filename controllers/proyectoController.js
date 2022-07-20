@@ -31,7 +31,7 @@ const obtenerProyecto = async (req, res) =>{
 
     //routing dinamico obtener ID
     const {id} = req.params;
-    //console.log(id);
+    //comprobamos que el proyecto exista
     const proyecto = await Proyecto.findById(id)
     //console.log(proyecto);
     if (!proyecto) {
@@ -45,8 +45,18 @@ const obtenerProyecto = async (req, res) =>{
         const error = new Error('Acción no válida')
         return res.status(401).json( {msg:error.message}) 
     }
+
+    //OBTENER LAS TAREAS DEL PROYECTO======================================
+    const tareas = await Tarea.find().where("proyecto").equals(proyecto._id)
+        
+    res.json({
+            proyecto,
+            tareas,
+        });
+    //OBTENER LAS TAREAS DEL PROYECTO=========================
+
     //mostrar proyecto a quien lo creo
-    res.json(proyecto)
+    // res.json(proyecto)
 }; 
  
 const editarProyecto = async (req, res) =>{
@@ -107,9 +117,7 @@ const eliminarColaborador = async (req, res) =>{
 
 };
 
-const obtenerTareas = async (req, res) =>{
 
-};
 
 export {
     obtenerProyectos,
@@ -118,7 +126,7 @@ export {
     editarProyecto,
     eliminarProyecto,
     agregarColaborador,
-    eliminarColaborador,
-    obtenerTareas
+    eliminarColaborador
+   
 
 };
