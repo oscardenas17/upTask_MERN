@@ -37,7 +37,7 @@ app.use('/', express.static('public'));
 //     res.send('oki')
 // })
 
-//app.use(cors(corsOptions))
+app.use(cors(corsOptions))
 //fin CORS
 
 
