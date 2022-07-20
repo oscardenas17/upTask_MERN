@@ -71,11 +71,16 @@ const servidor = app.listen(PORT, () =>{
      console.log('socket connected');
 
     //Defincion de eventos de conexion de socket io
-    socket.on('prueba', (data)=> {
-        console.log('prueba desde socketio', data);
+    socket.on('abrir proyecto', (proyecto)=> {
+       // console.log('prueba desde socketio', proyecto);
+        socket.join(proyecto)    
+    });
 
-    //Envio de datos al Frontend
-    socket.emit('respuesta', {nombre: 'Yesid'})
+    socket.on('nueva tarea', (tarea)=> {
+        const proyecto = tarea.proyecto;
+        socket.to(proyecto).emit("tarea agregada", tarea) 
+     });
 
-    })
+
+
  })
