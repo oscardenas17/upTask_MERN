@@ -11,10 +11,6 @@ const tareaSchema = mongoose.Schema({
         trim: true,
         required: true,
     },
-    descripcion:{
-        type: Boolean,
-       default: false,
-    },
     fechaEntrega:{
         type: Date,
         required: true,
