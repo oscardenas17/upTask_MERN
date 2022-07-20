@@ -5,7 +5,10 @@ import Tarea from "../models/Tarea.js"
 const obtenerProyectos = async (req, res) =>{
     //condicion para solo traer lo del usuario del req.usuario del checkAuth where('creador').equals(req.usuario)
     //console.log(req.usuario);
-   const proyectos = await Proyecto.find().where('creador').equals(req.usuario);
+   const proyectos = await Proyecto.find()
+                                   .where('creador')
+                                    .equals(req.usuario)
+                                    .select("-tareas");
    //console.log(proyectos);
    res.json(proyectos)
 };
@@ -31,8 +34,8 @@ const obtenerProyecto = async (req, res) =>{
 
     //routing dinamico obtener ID
     const {id} = req.params;
-    //comprobamos que el proyecto exista
-    const proyecto = await Proyecto.findById(id)
+    //comprobamos que el proyecto exista - y tarea las tareas del proyecto 
+    const proyecto = await Proyecto.findById(id).populate("tareas")
     //console.log(proyecto);
     if (!proyecto) {
         const error = new Error('Proyecto no encontrado')
