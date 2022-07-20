@@ -1,5 +1,5 @@
 import Proyecto from "../models/Proyecto.js"
- 
+import Tarea from "../models/Tarea.js"
 
 //Obtiene todos los proyectos del usuario autenticado, no de otros
 const obtenerProyectos = async (req, res) =>{
